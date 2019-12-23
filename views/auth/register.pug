@@ -25,4 +25,10 @@ head
       input#pwd.form-control(type='password', placeholder='Enter password', name='pswd', required='')
       .valid-feedback Valid.
       .invalid-feedback Please fill out this field.
+    .form-group
+      label(for='email') Email:
+      input#email.form-control(type='text', placeholder='Enter email', name='email')
+    .form-group
+      label(for='address') Address:
+      input#address.form-control(type='text', placeholder='Enter address', name='address')
     button.btn.btn-primary(type='submit') Submit

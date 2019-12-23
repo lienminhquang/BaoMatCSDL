@@ -1,4 +1,4 @@
-
+const oracledb = require('../db');
 // var shortId = require('shortid');
 // var md5 = require('md5');
 
@@ -9,31 +9,24 @@ module.exports.login = function(req, res) {
 };
 
 module.exports.loginPost = function(req, res) {
-    // var body = req.body;
-    // var users = db.get('users').find({mail: body.mail}).value();
-    // if(!users)
-    // {
-    //     res.render('auth/login', {errors: [
-    //         "Not found"
-    //     ]});
-    //     return;
-    // }
-    // if(users.password !== md5(body.password))
-    // {
-    //     res.render('auth/login', {errors: [
-    //         "Wrong password"
-    //     ]});
-    //     return;
-    // }
-    
-    // res.cookie('userId', users.id, {
-    //     signed: true
-    // });
-    // res.redirect('/users');
+    let user = req.body;
+    oracledb.login(user.username, user.password, (err, conn)=>{
+        if(err)
+        {
+            console.log(err+'');
+            res.render('auth/login', {errors: [
+                "User name or password invalid!"
+            ]});
+            return;
+        } 
+        else 
+        {
+            console.log("LOGIN SUCCESSED");
+            res.cookie('username', user.username, {signed: true});
+            res.redirect('/');
+        }
+    });
 
-    res.render('auth/login',{
-       
-    } )
 };
 
 module.exports.register = function(req, res) {
@@ -45,8 +38,6 @@ module.exports.register = function(req, res) {
 
 module.exports.registerPost = function(req, res) {
     
-    // Xu ly
-
     res.render('auth/register',{
        
     } )

@@ -9,23 +9,22 @@ head
   script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
 .container
   h2 Loggin
-  form.was-validated(action='/auth/login')
+
+  if errors
+        each error in errors
+            .alert.alert-danger= error
+
+  form.was-validated(action='/auth/login', method='POST')
     .form-group
       label(for='uname') Username:
-      input#uname.form-control(type='text', placeholder='Enter username', name='uname', required='')
+      input#uname.form-control(type='text', placeholder='Enter username', name='username', required='')
       .valid-feedback Valid.
       .invalid-feedback Please fill out this field.
     .form-group
       label(for='pwd') Password:
-      input#pwd.form-control(type='password', placeholder='Enter password', name='pswd', required='')
+      input#pwd.form-control(type='password', placeholder='Enter password', name='password', required='')
       .valid-feedback Valid.
       .invalid-feedback Please fill out this field.
-    .form-group.form-check
-      label.form-check-label
-        input.form-check-input(type='checkbox', name='remember', required='')
-        |  Remember password
-        .valid-feedback Valid.
-        .invalid-feedback Check this checkbox to continue.
     button.btn.btn-primary(type='submit') Login
   br
   a.btn.btn-primary(href="/auth/register") Register
