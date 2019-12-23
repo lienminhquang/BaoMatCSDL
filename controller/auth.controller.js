@@ -35,3 +35,19 @@ module.exports.loginPost = function(req, res) {
        
     } )
 };
+
+module.exports.register = function(req, res) {
+    
+    res.render('auth/register',{
+       
+    } )
+};
+
+module.exports.registerPost = function(req, res) {
+    
+    // Xu ly
+
+    res.render('auth/register',{
+       
+    } )
+};
