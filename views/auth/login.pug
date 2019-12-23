@@ -1,0 +1,33 @@
+doctype html
+head
+  title Bootstrap Example
+  meta(charset='utf-8')
+  meta(name='viewport', content='width=device-width, initial-scale=1')
+  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
+.container
+  h2 Form Validation
+  p
+    | In this example, we use 
+    code .was-validated
+    |  to indicate what&apos;s missing before submitting the form:
+  form.was-validated(action='/action_page.php')
+    .form-group
+      label(for='uname') Username:
+      input#uname.form-control(type='text', placeholder='Enter username', name='uname', required='')
+      .valid-feedback Valid.
+      .invalid-feedback Please fill out this field.
+    .form-group
+      label(for='pwd') Password:
+      input#pwd.form-control(type='password', placeholder='Enter password', name='pswd', required='')
+      .valid-feedback Valid.
+      .invalid-feedback Please fill out this field.
+    .form-group.form-check
+      label.form-check-label
+        input.form-check-input(type='checkbox', name='remember', required='')
+        |  I agree on blabla.
+        .valid-feedback Valid.
+        .invalid-feedback Check this checkbox to continue.
+    button.btn.btn-primary(type='submit') Submit
