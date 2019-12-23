@@ -1,5 +1,5 @@
 module.exports = {
-    umPool:
+    admin:
     {
         user: "USER_MANAGER",
         password: "123",
