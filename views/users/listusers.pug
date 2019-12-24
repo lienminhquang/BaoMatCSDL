@@ -2,6 +2,10 @@ extends ../../layouts/header
 block content
     .container
         h2 List users
+
+        if errors
+            each error in errors
+                .alert.alert-danger= error
         
         table.table.table-hover.table-bordered
             thead
@@ -11,6 +15,7 @@ block content
                     th Name
                     th Address
                     th
+                    th 
             tbody
                 if(users)
                     each user in users
@@ -20,6 +25,8 @@ block content
                             td= user.name
                             td= user.address
                             td
-                                a.btn.btn-light(href='/user/' + user.username) View
+                                a.btn.btn-light(href='/users/userdetail/' + user.username) View
+                            td
+                                a.btn.btn-light(href='/users/delete/' + user.username) Delete
         
-        a.btn.btn-primary(href="/auth/register") Add user
+        a.btn.btn-primary(href="/users/createuser") Create user

@@ -21,9 +21,11 @@ var authMiddleware = require('./middlewares/auth.middleware');
 var indexController = require('./controller/index.controller');
 var authRoute = require('./route/auth.route');
 var userRoute = require('./route/user.route');
+var profileRoute = require('./route/profile.route');
 
 app.use('/auth', authRoute);
-app.use('/users', userRoute);
+app.use('/users',authMiddleware.requireAuth, userRoute);
+app.use('/profiles', authMiddleware.requireAuth, profileRoute);
 
 app.get('/',authMiddleware.requireAuth, indexController.index);
 

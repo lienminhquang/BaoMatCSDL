@@ -2,7 +2,11 @@
 extends ../../layouts/header.pug
 block content
   .container
-    h2 Create user
+    h2 Create profile
+    if errors
+      each error in errors
+          .alert.alert-danger= error
+          
     form.was-validated(action='/auth/register')
       .form-group
         label(for='name') Name:

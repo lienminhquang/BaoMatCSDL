@@ -4,12 +4,18 @@ let userModel = require('../model/user.model');
 module.exports.listUsers = async (req, res) =>
 {
     let result = await userModel.getListUsers(
-        {
-            user: "USER_MANAGER",
-            password: "123",
-            connectString: "192.168.117.128:1521/orclpdb.localdomain"
-        }
+        res.locals.config
     );
+
+    if(!result)
+    {
+        let errors = ["You do not have permition !"];
+        res.render('users/listusers',{
+            errors: errors
+        });
+
+        return;
+    }
     
     let users = [];
     for (let i = 0; i < result.rows.length; i++) {
@@ -21,11 +27,9 @@ module.exports.listUsers = async (req, res) =>
             address: element[3]
         });
     }
-    
-    console.log(users);
 
     res.render('users/listusers',{
-        users
+        users 
     });
 }
 
@@ -35,11 +39,7 @@ module.exports.userDetail = async (req, res) =>
     console.log('View user detail: ' + username);
 
     let user = await userModel.getUserByUsername(
-        {
-            user: "USER_MANAGER",
-            password: "123",
-            connectString: "192.168.117.128:1521/orclpdb.localdomain"
-        },
+        res.locals.config,
         username
     );
 
@@ -55,3 +55,18 @@ module.exports.userDetail = async (req, res) =>
         user
     });
 };
+
+module.exports.createUser = function(req, res) {
+    
+    res.render('users/createuser',{
+       
+    } )
+};
+
+module.exports.createUserPost = function(req, res) {
+    
+    res.render('users/createuser',{
+       
+    } )
+};
+

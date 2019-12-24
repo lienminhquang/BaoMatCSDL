@@ -23,29 +23,10 @@ module.exports.loginPost = function(req, res) {
         {
             console.log("LOGIN SUCCESSED");
             res.cookie('username', user.username, {signed: true});
+            res.cookie('password', user.password, {signed: true});
             res.redirect('/');
         }
     });
 
-};
-
-module.exports.register = function(req, res) {
-    
-    res.render('auth/register',{
-       
-    } )
-};
-
-module.exports.registerPost = function(req, res) {
-    
-    res.render('auth/register',{
-       
-    } )
-};
-
-module.exports.listProfiles = (req, res) =>
-{
-    res.render('auth/listprofiles',{
-
-    });
+   
 };
