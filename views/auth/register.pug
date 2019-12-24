@@ -1,34 +1,63 @@
-doctype html
-head
-  title User manager
-  meta(charset='utf-8')
-  meta(name='viewport', content='width=device-width, initial-scale=1')
-  link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css')
-  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
-  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js')
-  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js')
-.container
-  h2 Register
-  form.was-validated(action='/auth/register')
-    .form-group
-      label(for='name') Name:
-      input#name.form-control(type='text', placeholder='Enter name', name='name', required='')
-      .valid-feedback Valid.
-      .invalid-feedback Please fill out this field.
-    .form-group
-      label(for='uname') User name:
-      input#uname.form-control(type='text', placeholder='Enter user name', name='uname', required='')
-      .valid-feedback Valid.
-      .invalid-feedback Please fill out this field.
-    .form-group
-      label(for='pwd') Password:
-      input#pwd.form-control(type='password', placeholder='Enter password', name='pswd', required='')
-      .valid-feedback Valid.
-      .invalid-feedback Please fill out this field.
-    .form-group
-      label(for='email') Email:
-      input#email.form-control(type='text', placeholder='Enter email', name='email')
-    .form-group
-      label(for='address') Address:
-      input#address.form-control(type='text', placeholder='Enter address', name='address')
-    button.btn.btn-primary(type='submit') Submit
+
+extends ../../layouts/header.pug
+block content
+  .container
+    h2 Create user
+    form.was-validated(action='/auth/register')
+      .form-group
+        label(for='name') Name:
+        input#name.form-control(type='text', placeholder='Enter name', name='name', required='')
+        .valid-feedback Valid.
+        .invalid-feedback Please fill out this field.
+      .form-group
+        label(for='uname') User name:
+        input#uname.form-control(type='text', placeholder='Enter user name', name='uname', required='')
+        .valid-feedback Valid.
+        .invalid-feedback Please fill out this field.
+      .form-group
+        label(for='pwd') Password:
+        input#pwd.form-control(type='password', placeholder='Enter password', name='pswd', required='')
+        .valid-feedback Valid.
+        .invalid-feedback Please fill out this field.
+      .form-group
+        label(for='email') Email:
+        input#email.form-control(type='text', placeholder='Enter email', name='email')
+      .form-group
+        label(for='address') Address:
+        input#address.form-control(type='text', placeholder='Enter address', name='address')
+      .form-group
+        label(for='sel1') Default table space:
+        select#sel1.form-control(name='defaultablespace')
+          option USERS
+      .form-group
+        label(for='sel2') Temporary table space:
+        select#sel2.form-control(name='temptablespace')
+          option TEMP
+      .form-group
+        label(for='quota') Quota:
+          input#quota.form-control(type='number', value='500', name='quota')
+      .form-group
+        lable(for='accountstatus') Account status:
+        select#accountstatus.form-control(name='accountstatus')
+          option UNLOCK
+          option LOCK
+      .form-group
+        label(for='profiles') Profiles: (hold shift to select more than one):
+        select#profiles.form-control(multiple='', name='profiles')
+          option 1
+          option 2
+          option 3
+          option 4
+          option 5
+      .form-group
+        label(for='roles') Roles: (hold shift to select more than one):
+        select#roles.form-control(multiple='', name='roles')
+          option 1
+          option 2
+          option 3
+          option 4
+          option 5  
+
+
+      
+      button.btn.btn-primary(type='submit') Submit

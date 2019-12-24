@@ -1,0 +1,25 @@
+extends ../../layouts/header
+block content
+    .container
+        h2 List users
+        
+        table.table.table-hover.table-bordered
+            thead
+                tr
+                    th Username
+                    th Email
+                    th Name
+                    th Address
+                    th
+            tbody
+                if(users)
+                    each user in users
+                        tr
+                            td= user.username
+                            td= user.email
+                            td= user.name
+                            td= user.address
+                            td
+                                a.btn.btn-light(href='/user/' + user.username) View
+        
+        a.btn.btn-primary(href="/auth/register") Add user

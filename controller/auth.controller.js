@@ -42,3 +42,10 @@ module.exports.registerPost = function(req, res) {
        
     } )
 };
+
+module.exports.listProfiles = (req, res) =>
+{
+    res.render('auth/listprofiles',{
+
+    });
+};

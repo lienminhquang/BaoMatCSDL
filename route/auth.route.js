@@ -9,3 +9,5 @@ router.post('/login', controller.loginPost);
 
 router.get('/register', controller.register);
 router.post('/register', controller.registerPost);
+
+router.get('/listprofiles', controller.listProfiles);
