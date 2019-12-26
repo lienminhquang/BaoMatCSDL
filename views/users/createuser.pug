@@ -61,6 +61,13 @@ block content
           option 3
           option 4
           option 5  
+      .form-group
+        label(for='roles') Privilege: (hold shift to select more than one):
+        select#roles.form-control(multiple='', name='privilege')
+          option INSERT ON USERS
+          option UPDATE ON USERS
+          option DELETE ON USERS
+          option SELECT ON USERS
 
 
       
