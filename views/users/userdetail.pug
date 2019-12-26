@@ -35,11 +35,11 @@ block content
         .form-group
             label(for='sel1') Default table space:
             select#sel1.form-control(name='defaultablespace')
-            option USERS
+                option USERS
         .form-group
             label(for='sel2') Temporary table space:
             select#sel2.form-control(name='temptablespace')
-            option TEMP
+                option TEMP
         .form-group
             label(for='quota') Quota:
             input#quota.form-control(type='number', value='500', name='quota')
@@ -50,7 +50,7 @@ block content
                 option LOCK
         .form-group
             label(for='profiles') Profiles: (hold shift to select more than one):
-            select#profiles.form-control(multiple='', name='profiles')
+            select#profiles.form-control(name='profiles')
                 option 1
                 option 2
                 option 3

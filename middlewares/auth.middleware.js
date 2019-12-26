@@ -27,7 +27,7 @@ module.exports.requireAuth = async function(req, res, next)
     res.locals.config = {
         user: req.signedCookies.username,
         password: req.signedCookies.password,
-        connectString: "192.168.117.128:1521/orclpdb.localdomain"
+        connectString: "192.168.117.129:1521/orclpdb.localdomain"
     };
 
     next();

@@ -7,7 +7,7 @@ block content
       each error in errors
           .alert.alert-danger= error
           
-    form.was-validated(action='/auth/register')
+    form.was-validated(action='/users/createuser', method='POST')
       .form-group
         label(for='name') Name:
         input#name.form-control(type='text', placeholder='Enter name', name='name', required='')
@@ -15,12 +15,12 @@ block content
         .invalid-feedback Please fill out this field.
       .form-group
         label(for='uname') User name:
-        input#uname.form-control(type='text', placeholder='Enter user name', name='uname', required='')
+        input#uname.form-control(type='text', placeholder='Enter user name', name='username', required='')
         .valid-feedback Valid.
         .invalid-feedback Please fill out this field.
       .form-group
         label(for='pwd') Password:
-        input#pwd.form-control(type='password', placeholder='Enter password', name='pswd', required='')
+        input#pwd.form-control(type='password', placeholder='Enter password', name='password', required='')
         .valid-feedback Valid.
         .invalid-feedback Please fill out this field.
       .form-group
