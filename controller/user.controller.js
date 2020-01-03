@@ -1,5 +1,6 @@
 let oracledb = require('../db');
 let userModel = require('../model/user.model');
+let profileModel = require('../model/profile.model');
 
 module.exports.listUsers = async (req, res) => {
     let result = await userModel.getListUsers(
@@ -53,10 +54,12 @@ module.exports.userDetail = async (req, res) => {
     });
 };
 
-module.exports.createUser = function (req, res) {
+module.exports.createUser = async function (req, res) {
+
+    let listProfiles = await profileModel.getList_profiles(res.locals.config);
 
     res.render('users/createuser', {
-
+        profiles: listProfiles
     })
 };
 

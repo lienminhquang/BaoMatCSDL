@@ -1,66 +1,60 @@
 let db = require('../db');
 let oracledb = db.oracledb;
 
-module.exports.getListUsers = async (config)=>{
+module.exports.getListUsers = async (config) => {
     let users;
     try {
         users = await db.executeCommand(config, 'select * from user_manager.users', {});
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err + '');
     }
 
     return users;
 };
 
-module.exports.getUserByUsername = async (config, username) => 
-{
+module.exports.getUserByUsername = async (config, username) => {
     let user;
-    try{
-        user = await db.executeCommand(config, `select * from user_manager.users where username=:username`, {username: username});
+    try {
+        user = await db.executeCommand(config, `select * from user_manager.users where username=:username`, { username: username });
     }
-    catch(err)
-    {
+    catch (err) {
         console.log(err + '');
     }
     return user;
 };
 
-module.exports.isValidUser = async (username, password) =>
-{
+module.exports.isValidUser = async (username, password) => {
     let conn;
-    try{
+    try {
         conn = await db.oracledb.getConnection({
             user: username,
             password: password,
             connectString: "192.168.117.129:1521/orclpdb.localdomain"
         });
     }
-    catch(e)
-    {
+    catch (e) {
         console.log(e + '');
         return false;
     }
 
-    if(conn) return true;
+    if (conn) return true;
     return false;
 };
 
-module.exports.deleteUser = async (config, username_delete) => 
-{
+module.exports.deleteUser = async (config, username_delete) => {
     let result;
-    try{
-        result = await db.executeCommand(config, `delete from user_manager.users where username=:username`, {username: username_delete});
+    try {
+        result = await db.executeCommand(config, `delete from user_manager.users where username=:username`, { username: username_delete });
+        let query_delete_user = `drop user ` + username_delete + ` `;
+        await db.executeCommand(config, query_delete_user, {});
     }
-    catch(e)
-    {
+    catch (e) {
         console.log(e);
         return false;
     }
 
-    if(result)
-    {
+    if (result) {
         console.log(result);
         return true;
     }
@@ -70,29 +64,59 @@ module.exports.deleteUser = async (config, username_delete) =>
 
 module.exports.createUser = async (config, user) => {
     let result;
-    try{
-        result = await db.executeCommand(
-            config, 
-            `insert into user_manager.users values(:username, :email, :name, :address)`,
-            {username: user.username, email: user.email, name: user.name, address: user.address}
-        );
-        
-        await db.executeCommand(
-            config,
-            `create user :username identifed by :password`,
-            {username: user.username, password: user.password}
-        );
-        await db.executeCommand(
-            config,
-            `grant connect to :username`,
-            {username: user.username}
-        );
+    let connection;
+
+    try {
+        connection = await oracledb.getConnection(config);
+    } catch (error) {
+        console.log(error);
+        throw new Error("Cannot create connection");
     }
-    catch(e)
-    {
+
+
+    try {
+        result = await connection.execute(`insert into user_manager.users values(:username, :email, :name, :address)`,
+            { username: user.username, email: user.email, name: user.name, address: user.address },
+            { autoCommit: false }
+        );
+
+        let query_create =
+            `
+        create user ` + user.username + ` identified by ` + user.password + `  
+        DEFAULT TABLESPACE `+ user.defaultablespace + ` 
+        QUOTA `+ user.quota + ` ON ` + user.defaultablespace + ` 
+        TEMPORARY TABLESPACE `+ user.temptablespace + ` 
+        PROFILE `+ user.profile + ` 
+        ACCOUNT `+ user.account + ` 
+        `;
+
+        await connection.execute(query_create, {}, {autoCommit: false});
+
+        if (user.privileges) {
+            if (typeof (user.privileges) == 'string') {
+                let query_grant_priv = `GRANT ` + user.privileges + ` TO ` + user.username + ` `;
+                console.log(query_grant_priv);
+                await connection.execute(query_grant_priv, {}, {autoCommit: false});
+            }
+            else {
+                for (let i = 0; i < user.privileges.length; i++) {
+                    let query_grant_priv = `GRANT ` + user.privileges[i] + ` TO ` + user.username + ` `;
+                    console.log(query_grant_priv);
+                    await connection.execute(query_grant_priv, {}, {autoCommit: false});
+                }
+            }
+        }
+    }
+    catch (e) {
         console.log(e);
+        let error =  await connection.rollback();
+        console.log("RollBack error:" + error);
+        await connection.close();
         throw new Error("Cannot create user!");
     }
+
+    await connection.commit();
+    await connection.close();
 
     return result;
 };

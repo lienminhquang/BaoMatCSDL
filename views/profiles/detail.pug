@@ -1,0 +1,36 @@
+
+extends ../../layouts/header.pug
+block content
+  .container
+    h2 Profile detail
+        
+    if errors
+        each error in errors
+            .alert.alert-danger= error
+        
+    
+    if profile
+       
+        form.was-validated(action='/profiles/detail', method='POST')
+            .form-group
+                label(for='profile') Profile:
+                input#profile.form-control(type='text', placeholder='Enter profile', name='profile', required='', value= profile.profile, readonly='')
+                .valid-feedback Valid.
+                .invalid-feedback Please fill out this field.
+            .form-group
+                label(for='sessions_per_user') Sessions per user:
+                input#sessions_per_user.form-control(type='text', placeholder='Enter sessions_per_user', name='sessions_per_user', required='', value= profile.sessions_per_user)
+                .valid-feedback Valid.
+                .invalid-feedback Please fill out this field.
+            .form-group
+                label(for='connect_time') Connect time:
+                input#connect_time.form-control(type='text', placeholder='Enter connect_time', name='connect_time', required='', value= profile.connect_time)
+                .valid-feedback Valid.
+                .invalid-feedback Please fill out this field.
+            .form-group
+                label(for='idle_time') Idle time:
+                input#idle_time.form-control(type='text', placeholder='Enter idle_time', name='idle_time', required='', value= profile.idle_time)
+                .valid-feedback Valid.
+                .invalid-feedback Please fill out this field.
+
+            button.btn.btn-primary(type='submit') Summit change

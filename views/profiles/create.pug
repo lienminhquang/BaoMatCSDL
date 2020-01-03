@@ -1,0 +1,32 @@
+
+extends ../../layouts/header.pug
+block content
+  .container
+    h2 Create profile
+    if errors
+      each error in errors
+          .alert.alert-danger= error
+          
+    form.was-validated(action='/profiles/create' method='POST')
+      .form-group
+        label(for='nameprofile') Name profile:
+        input#nameprofile.form-control(type='text', placeholder='Enter name', name='nameprofile', required='')
+        .valid-feedback Valid.
+        .invalid-feedback Please fill out this field.
+      .form-group
+        label(for='sessions_per_user') Session per user:
+        input#sessions_per_user.form-control(type='number', value='10', placeholder='Enter session per user', name='sessions_per_user', required='')
+        .valid-feedback Valid.
+        .invalid-feedback Please fill out this field.
+      .form-group
+        label(for='connect_time') Connect time:
+        input#connect_time.form-control(type='number', value='10', placeholder='Enter connect time', name='connect_time', required='')
+        .valid-feedback Valid.
+        .invalid-feedback Please fill out this field.
+      .form-group
+        label(for='idle_time') Connect time:
+        input#idle_time.form-control(type='number', value='10', placeholder='Enter idle time', name='idle_time', required='')
+        .valid-feedback Valid.
+        .invalid-feedback Please fill out this field.
+      
+      button.btn.btn-primary(type='submit') Submit
