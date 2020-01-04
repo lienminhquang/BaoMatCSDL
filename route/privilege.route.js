@@ -14,3 +14,8 @@ router.get('/tab/list', controller.getListTabPrivileges);
 router.get('/tab/grant', controller.grantTabPrivilege);
 router.post('/tab/grant', controller.grantTabPrivilegePost);
 router.get('/tab/revoke', controller.revokeTabPrivilege);
+
+router.get('/col/list', controller.getListColPrivileges);
+router.get('/col/revoke', controller.revokeColPrivilege);
+router.get('/col/grant', controller.grantColPrivilege);
+router.post('/col/grant', controller.grantColPrivilegePost);

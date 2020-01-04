@@ -49,6 +49,43 @@ module.exports.getList_SYS_PRIVS = async (config) =>
     return list;
 };
 
+module.exports.getList_COL_PRIVS = async (config) =>
+{
+    let result;
+    try {
+        result = await db.executeCommand(
+            config, 
+            `SELECT * FROM DBA_COL_PRIVS WHERE TABLE_NAME='USERS' AND OWNER='USER_MANAGER'`,
+            {});
+    } catch (error) {
+        throw error;
+    }
+    
+   
+    result = result.rows;
+
+    let list = [];
+
+    for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+        list.push({
+            GRANTEE: element[0],
+            OWNER: element[1],
+            TABLE_NAME: element[2],
+            COLUMN_NAME: element[3],
+            GRANTOR: element[4],
+            PRIVILEGE: element[5],
+            GRANTABLE: element[6],
+            COMMON: element[7],
+            INHERITED: element[8]
+        });
+    }
+
+
+    return list;
+};
+
+
 module.exports.getList_TAB_PRIVS = async (config) =>
 {
     let result;
@@ -213,6 +250,62 @@ module.exports.revokeTabPrivilege = async(config, priv, table_name, grantee)=>
     try {
         let query = `REVOKE ` + priv + ` ON ` + table_name + ` FROM ` + grantee + ` `;
         
+        result = await db.executeCommand(config, query, {});
+    } catch (error) {
+        throw error;
+    }
+    
+   return result;
+};
+
+
+
+module.exports.revokeColPrivilege = async(config, priv)=>
+{
+    console.log(priv);
+    let result;
+    try {
+        let query = `REVOKE ` + priv.priv + ` ON ` + priv.owner + `.` + priv.table_name + ` FROM ` + priv.grantee + ` `;
+        console.log(query);
+        result = await db.executeCommand(config, query, {});
+    } catch (error) {
+        throw error;
+    }
+    
+   return result;
+};
+
+module.exports.listcolumnNameOfUsers = async(config)=>
+{
+    try {
+        let result = await db.executeCommand(config,
+        `SELECT COLUMN_NAME
+        FROM dba_tab_cols 
+        where table_name='USERS' and owner='USER_MANAGER'`, {});
+        return result.rows;
+    } catch (error) {
+        throw error;
+    }
+
+    return null;
+};
+
+
+module.exports.grantColPrivilege = async(config, privilege)=>
+{
+    let result;
+    
+    try {
+        let query;
+        if(privilege.grantable == 'YES')
+        {
+            query = `GRANT ` + privilege.privilege + `(`+ privilege.column_name +`) ON USER_MANAGER.USERS  TO ` + privilege.object + ` WITH GRANT OPTION`;
+        }
+        else 
+        {
+            query = `GRANT ` + privilege.privilege + `(`+ privilege.column_name +`) ON USER_MANAGER.USERS  TO ` + privilege.object + ` `;
+        }
+        //console.log(query);
         result = await db.executeCommand(config, query, {});
     } catch (error) {
         throw error;

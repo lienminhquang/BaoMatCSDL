@@ -66,7 +66,7 @@ module.exports.grantSysPrivilegePost = async (req, res) => {
     let object = req.body.object;
     let grantable = req.body.grantable;
 
-    
+
 
     let result;
 
@@ -157,4 +157,84 @@ module.exports.revokeSysPrivilege = async (req, res)=>
     
     res.redirect('/privileges/sys/list?e=' + encodeURIComponent('Revoke succeeded.'))
 
+};
+
+
+
+module.exports.getListColPrivileges = async (req, res) => {
+
+    let e = req.query.e;
+    let errors = [];
+    if (e) {
+        errors.push(e);
+    }
+
+    let list;
+
+    try {
+        list = await privilegeModel.getList_COL_PRIVS(res.locals.config);
+    } catch (error) {
+        errors.push(error + '');
+        res.render('privileges/col/list', { errors: errors });
+        return;
+    }
+
+    res.render('privileges/col/list', { list: list, errors: errors });
+};
+
+
+
+module.exports.revokeColPrivilege = async (req, res)=>
+{
+    let priv = req.query;
+
+    let result;
+    try {
+        result = await privilegeModel.revokeColPrivilege(res.locals.config, priv);
+    } catch (error) {
+        
+        res.redirect('/privileges/col/list?e=' + encodeURIComponent(error + ''));
+        return;
+    }
+
+    
+    res.redirect('/privileges/col/list?e=' + encodeURIComponent('Revoke succeeded.'));
+
+};
+
+
+module.exports.grantColPrivilege = async (req, res)=>
+{
+    let e = req.query.e;
+    let errors = [];
+    if (e) {
+        errors.push(e);
+    }
+    let columns;
+    try {
+        columns = await privilegeModel.listcolumnNameOfUsers(res.locals.config);
+    } catch (error) {
+        errors.push(errors + '');
+        res.render('privileges/col/grant', { errors: errors, columns: columns });
+        return;
+    }
+
+
+    res.render('privileges/col/grant', { errors: errors, columns: columns });
+};
+
+module.exports.grantColPrivilegePost = async (req, res) => {
+    let privilege = req.body;
+    //console.log(privilege);
+    let result;
+
+    try {
+        result = await privilegeModel.grantColPrivilege(res.locals.config, privilege);
+    } catch (error) {
+
+        res.redirect('/privileges/col/grant?e=' + encodeURIComponent(error + '') + '');
+        return;
+    }
+
+    res.redirect('/privileges/col/grant?e=' + encodeURIComponent('Grant succeeded.') + '');
 };

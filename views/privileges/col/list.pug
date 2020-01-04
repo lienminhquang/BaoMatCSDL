@@ -18,7 +18,7 @@ block content
                     th GRANTOR
                     th PRIVILEGE
                     th GRANTABLE
-                    th TYPE
+                    th COMMON
                     th INHERITED
                     th
 
@@ -32,9 +32,11 @@ block content
                         th=priv.GRANTOR
                         th=priv.PRIVILEGE
                         th=priv.GRANTABLE
-                        th=priv.TYPE
+                        th=priv.COMMON
                         th=priv.INHERITED
                         th
-                            a.btn.btn-primary(href="/privileges/col/grant/" + priv.PRIVILEGE + ' ON ' + priv.TABLE_NAME) Grant
-       
+                            a.btn.btn-primary(href="/privileges/col/revoke?priv=" + priv.PRIVILEGE + '&grantee=' + priv.GRANTEE + '&table_name=' + priv.TABLE_NAME + '&column_name=' + priv.COLUMN_NAME + '&owner=' + priv.OWNER) Revoke
+        
+        br
+        a.btn.btn-primary(href="/privileges/col/grant") Grant
                
