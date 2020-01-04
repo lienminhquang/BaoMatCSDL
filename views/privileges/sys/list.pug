@@ -1,0 +1,29 @@
+extends ../../layouts/header
+block content
+    .container
+        h2 List sys privileges
+        
+        if errors
+            each error in errors
+                .alert.alert-danger= error
+        div USER_SYS_PRIVS
+            table.table.table-hover.table-bordered
+                thead
+                    tr
+                        th USERNAME
+                        th PRIVILEGE
+                        th ADMIN_OPTION
+                        th COMMON
+                        th INHERITED
+                        th 
+                tbody
+                    each priv in list
+                        tr
+                            td=priv.USERNAME
+                            td=priv.PRIVILEGE
+                            td=priv.ADMIN_OPTION
+                            td=priv.COMMON
+                            td=priv.INHERITED
+                            td
+                                a.btn.btn-primary(href="/privileges/sys/grant/" + priv.PRIVILEGE) GRANT
+        

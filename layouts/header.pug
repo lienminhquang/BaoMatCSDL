@@ -20,6 +20,13 @@ body
                 a.nav-link(href='/') Home
             li.nav-item
                 a.nav-link(href='/users/listusers') Users
+            li.nav-item
+                a.nav-link(href='/profiles/listprofiles') Proflies
+            li.nav-item
+                a.nav-link(href='/privileges/listprivileges') Privileges
+            li.nav-item
+                a.nav-link(href='/roles/listroles') Roles
+
             if user
                 li.nav-item
                     a.nav-link.float-right=user.name

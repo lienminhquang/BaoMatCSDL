@@ -1,0 +1,31 @@
+
+extends ../../layouts/header.pug
+block content
+  .container
+    h2 Role detail
+        
+    if errors
+        each error in errors
+            .alert.alert-danger= error
+        
+    
+    if role
+       
+        form.was-validated(action='/roles/detail', method='POST')
+            .form-group
+                label(for='role') Role:
+                input#role.form-control(readonly='', type='text', placeholder='Enter role name', name='role', required='', value= role.role)
+                .valid-feedback Valid.
+                .invalid-feedback Please fill out this field.
+            .form-group
+                label(for='password_required') Password required:
+                select#password_required.form-control(name='password_required')
+                    option(value='YES', selected= role.password_required=='YES') YES
+                    option(value='NO', selected= role.password_required=='NO') NO
+                    option(value='GLOBAL', selected= role.password_required=='GLOBAL') GLOBAL
+            .form-group
+                label(for='password') Password:
+                input#password.form-control(type='text', placeholder='Enter password', name='password', value= role.password)
+                
+        
+            button.btn.btn-primary(type='submit') Summit change

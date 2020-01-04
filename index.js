@@ -22,10 +22,14 @@ var indexController = require('./controller/index.controller');
 var authRoute = require('./route/auth.route');
 var userRoute = require('./route/user.route');
 var profileRoute = require('./route/profile.route');
+var roleRoute = require('./route/role.route');
+var privilegeRoute = require("./route/privilege.route");
 
 app.use('/auth', authRoute);
 app.use('/users',authMiddleware.requireAuth, userRoute);
 app.use('/profiles', authMiddleware.requireAuth, profileRoute);
+app.use('/roles', authMiddleware.requireAuth, roleRoute);
+app.use('/privileges', authMiddleware.requireAuth, privilegeRoute);
 
 app.get('/',authMiddleware.requireAuth, indexController.index);
 
