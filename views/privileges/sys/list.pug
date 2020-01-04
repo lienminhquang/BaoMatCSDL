@@ -1,4 +1,4 @@
-extends ../../layouts/header
+extends ../../../layouts/header
 block content
     .container
         h2 List sys privileges
@@ -6,7 +6,8 @@ block content
         if errors
             each error in errors
                 .alert.alert-danger= error
-        div USER_SYS_PRIVS
+        br
+        div 
             table.table.table-hover.table-bordered
                 thead
                     tr
@@ -25,5 +26,6 @@ block content
                             td=priv.COMMON
                             td=priv.INHERITED
                             td
-                                a.btn.btn-primary(href="/privileges/sys/grant/" + priv.PRIVILEGE) GRANT
-        
+                                a.btn.btn-primary(href="/privileges/sys/revoke?priv=" + priv.PRIVILEGE + "&username=" + priv.USERNAME + "") Revoke
+        br
+        a.btn.btn-primary(href="/privileges/sys/grant") Grant

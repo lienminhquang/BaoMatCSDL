@@ -1,0 +1,32 @@
+extends ../../../layouts/header
+block content
+    .container
+        h2 Grant privilege 
+       
+        
+        if errors
+            each error in errors
+                .alert.alert-danger= error
+        br
+        div 
+            form.was-validated(action='/privileges/sys/grant' method='POST')
+                .form-group
+                    label(for='privilege') Privilege
+                    //- input#privilege.form-control(type="dropdown", readonly='', name='privilege', value=privilege)
+                    select#privilege.form-control(name='privilege')
+                        each priv in privileges
+                            option(value= priv.name, selected= priv.name == privilege)= priv.name
+                        
+                .form-group
+                    label(for='object') Username or role:
+                    input#object.form-control(type='text', placeholder='Enter username or role', name='object', required='')
+                    .valid-feedback Valid.
+                    .invalid-feedback Please fill out this field.
+                .form-group
+                    label(for='grantable') Grantable:
+                    select#grantable.form-control(name='grantable')       
+                        option(value='NO') NO
+                        option(value='YES') YES
+                button.btn.btn-primary(type='submit') Grant
+        br
+        

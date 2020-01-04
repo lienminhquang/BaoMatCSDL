@@ -1,0 +1,40 @@
+extends ../../../layouts/header
+block content
+    .container
+        h2 List table privilege
+        
+        if errors
+            each error in errors
+                .alert.alert-danger= error
+        
+         
+        table.table.table-hover.table-bordered
+            thead
+                tr
+                    th GRANTEE
+                    th OWNER
+                    th TABLE_NAME
+                    th COLUMN_NAME
+                    th GRANTOR
+                    th PRIVILEGE
+                    th GRANTABLE
+                    th TYPE
+                    th INHERITED
+                    th
+
+            tbody
+                each priv in list
+                    tr
+                        th=priv.GRANTEE
+                        th=priv.OWNER
+                        th=priv.TABLE_NAME
+                        th=priv.COLUMN_NAME
+                        th=priv.GRANTOR
+                        th=priv.PRIVILEGE
+                        th=priv.GRANTABLE
+                        th=priv.TYPE
+                        th=priv.INHERITED
+                        th
+                            a.btn.btn-primary(href="/privileges/col/grant/" + priv.PRIVILEGE + ' ON ' + priv.TABLE_NAME) Grant
+       
+               
