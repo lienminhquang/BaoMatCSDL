@@ -59,3 +59,110 @@ block content
 
         
             button.btn.btn-primary(type='submit') Submit
+
+        hr
+        h5 List column privileges
+        table.table.table-hover.table-bordered
+            thead
+                tr
+                    th GRANTEE
+                    th OWNER
+                    th TABLE_NAME
+                    th COLUMN_NAME
+                    th GRANTOR
+                    th PRIVILEGE
+                    th GRANTABLE
+                    //- th COMMON
+                    //- th INHERITED
+                    th
+
+            tbody
+                if col_privs
+                    each col_priv in col_privs
+                        tr
+                            td=col_priv.GRANTEE
+                            td=col_priv.OWNER
+                            td=col_priv.TABLE_NAME
+                            td=col_priv.COLUMN_NAME
+                            td=col_priv.GRANTOR
+                            td=col_priv.PRIVILEGE
+                            td=col_priv.GRANTABLE
+                            //- th=col_priv.COMMON
+                            //- th=col_priv.INHERITED
+                            td
+                                a.btn.btn-primary(href="/privileges/col/revoke?priv=" + col_priv.PRIVILEGE + '&grantee=' + col_priv.GRANTEE + '&table_name=' + col_priv.TABLE_NAME + '&column_name=' + col_priv.COLUMN_NAME + '&owner=' + col_priv.OWNER + '&source=/users/userdetail/' + user.username) Revoke
+        hr
+        h5 List table privileges
+        table.table.table-hover.table-bordered
+            thead
+                tr
+                    th GRANTEE
+                    th OWNER
+                    th TABLE_NAME
+                    th GRANTOR
+                    th PRIVILEGE
+                    th GRANTABLE
+                    th TYPE
+                    //-- th INHERITED
+                    th
+
+            tbody
+                if tab_privs
+                    each priv in tab_privs
+                        tr
+                            td=priv.GRANTEE
+                            td=priv.OWNER
+                            td=priv.TABLE_NAME
+                            td=priv.GRANTOR
+                            td=priv.PRIVILEGE
+                            td=priv.GRANTABLE
+                            td=priv.TYPE
+                            //-- td=priv.INHERITED
+                            td
+                                a.btn.btn-primary(href="/privileges/tab/revoke?priv=" + priv.PRIVILEGE + "&table_name=" + priv.TABLE_NAME + "&grantee=" + priv.GRANTEE + "&source=/users/userdetail/" + user.username) Revoke
+        
+        hr
+        h5 List system privileges
+        table.table.table-hover.table-bordered
+            thead
+                tr
+                    th USERNAME
+                    th PRIVILEGE
+                    th ADMIN_OPTION
+                    th COMMON
+                    th INHERITED
+                    th 
+            tbody
+                if sys_privs
+                    each priv in sys_privs
+                        tr
+                            td=priv.USERNAME
+                            td=priv.PRIVILEGE
+                            td=priv.ADMIN_OPTION
+                            td=priv.COMMON
+                            td=priv.INHERITED
+                            td
+                                a.btn.btn-primary(href="/privileges/sys/revoke?priv=" + priv.PRIVILEGE + "&username=" + priv.USERNAME + "&source=/users/userdetail/" + user.username) Revoke
+        
+        hr
+        h5 List roles 
+        table.table.table-hover.table-bordered
+            thead
+                tr
+                    th Grantee
+                    th Granted role
+                    th Admin option
+                    th Delegate option
+                    th Default role
+                    th
+            tbody
+                if rol_privs
+                    each rol_priv in rol_privs
+                        tr
+                            td=rol_priv.grantee
+                            td=rol_priv.granted_role
+                            td=rol_priv.admin_option
+                            td=rol_priv.delegate_option
+                            td=rol_priv.default_role
+                            td
+                                a.btn.btn-primary(href="/privileges/sys/revoke?priv=" + rol_priv.granted_role + "&username=" + rol_priv.grantee + "&source=/users/userdetail/" + user.username) Revoke

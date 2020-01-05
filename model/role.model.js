@@ -263,6 +263,39 @@ module.exports.getUserAssignedToRole = async (config, role) => {
     return list;
 };
 
+module.exports.getAllRoleOfUser = async (config, username) => {
+    let result;
+
+    try {
+
+        result = await db.executeCommand(
+            config,
+            `select * from dba_role_privs where grantee=UPPER(:username)`,
+            {username: username});
+
+            result = result.rows;
+    } catch (error) {
+        throw error;
+    }
+
+    let list = [];
+
+    for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+        list.push({
+            grantee: element[0],
+            granted_role: element[1],
+            admin_option: element[2],
+            delegate_option: element[3],
+            default_role: element[4],
+            common: element[5],
+            inherited: element[6]
+        });
+    }
+
+
+    return list;
+};
 
 module.exports.revokeRoleToRole = async(config, grantee, granted_role)=>
 {

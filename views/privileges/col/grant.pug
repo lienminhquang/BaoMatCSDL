@@ -20,9 +20,10 @@ block content
                 .form-group
                     label(for='column_name') Column name
                     //- input#privilege.form-control(type="dropdown", readonly='', name='privilege', value=privilege)
-                    select#column_name.form-control(name='column_name')
-                        each column in columns
-                            option(value=column[0])=column[0]
+                    select#column_name.form-control(name='column_name', required='')
+                        if columns
+                            each column in columns
+                                option(value=column[0])=column[0]
                           
                         
                 .form-group

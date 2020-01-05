@@ -6,23 +6,26 @@ block content
         
         if errors
             each error in errors
-                .alert.alert-danger= error
+                .alert.alert-danger=error
         br
         div 
             form.was-validated(action='/roles/r2r/grant' method='POST')
                 .form-group
                     label(for='grantee') Grantee
                     //- input#privilege.form-control(type="dropdown", readonly='', name='privilege', value=privilege)
-                    select#grantee.form-control(name='grantee')
-                        each grantee in roles
-                            option(value= grantee.role)= grantee.role
+                    
+                    select#grantee.form-control(name='grantee', required='')
+                        if grantee
+                            each grantee in roles
+                                option(value= grantee.role)= grantee.role
                         
                 .form-group
                     label(for='granted_role') Granted role
                     //- input#privilege.form-control(type="dropdown", readonly='', name='privilege', value=privilege)
-                    select#granted_role.form-control(name='granted_role')
-                        each granted_role in roles
-                            option(value= granted_role.role)= granted_role.role
+                    select#granted_role.form-control(name='granted_role', required='')
+                        if roles
+                            each granted_role in roles
+                                option(value= granted_role.role)= granted_role.role
                 .form-group
                     label(for='grantable') Grantable:
                     select#grantable.form-control(name='grantable')       

@@ -26,16 +26,16 @@ block content
                 if list
                     each priv in list
                         tr
-                            th=priv.GRANTEE
-                            th=priv.OWNER
-                            th=priv.TABLE_NAME
-                            th=priv.COLUMN_NAME
-                            th=priv.GRANTOR
-                            th=priv.PRIVILEGE
-                            th=priv.GRANTABLE
-                            th=priv.COMMON
-                            th=priv.INHERITED
-                            th
+                            td=priv.GRANTEE
+                            td=priv.OWNER
+                            td=priv.TABLE_NAME
+                            td=priv.COLUMN_NAME
+                            td=priv.GRANTOR
+                            td=priv.PRIVILEGE
+                            td=priv.GRANTABLE
+                            td=priv.COMMON
+                            td=priv.INHERITED
+                            td
                                 a.btn.btn-primary(href="/privileges/col/revoke?priv=" + priv.PRIVILEGE + '&grantee=' + priv.GRANTEE + '&table_name=' + priv.TABLE_NAME + '&column_name=' + priv.COLUMN_NAME + '&owner=' + priv.OWNER) Revoke
         
         br

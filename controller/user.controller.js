@@ -1,6 +1,8 @@
 let oracledb = require('../db');
 let userModel = require('../model/user.model');
 let profileModel = require('../model/profile.model');
+let privilegeModel = require('../model/privilege.model')
+let roleModel = require('../model/role.model');
 
 module.exports.listUsers = async (req, res) => {
 
@@ -41,6 +43,10 @@ module.exports.userDetail = async (req, res) => {
     let profile;
     let profiles;
     let account_status;
+    let col_privs;
+    let sys_privs;
+    let tab_privs;
+    let rol_privs;
 
     let errors = [];
     let e = req.query.e;
@@ -56,6 +62,10 @@ module.exports.userDetail = async (req, res) => {
         profile = await profileModel.getProfileOfUser(res.locals.config, username);
         profiles = await profileModel.getList_profiles(res.locals.config);
         account_status = await userModel.getAccoutStatus(res.locals.config, username);
+        col_privs = await privilegeModel.getList_COL_PRIVS(res.locals.config, username);
+        sys_privs = await privilegeModel.getList_SYS_PRIVS(res.locals.config, username);
+        tab_privs = await privilegeModel.getList_TAB_PRIVS(res.locals.config, username);
+        rol_privs = await roleModel.getAllRoleOfUser(res.locals.config, username);
 
     } catch (error) {
         console.log(error);
@@ -64,7 +74,7 @@ module.exports.userDetail = async (req, res) => {
     }
 
 
-    //console.log(user);
+    //console.log(sys_privs);
     if (user) {
         user = user.rows[0];
         user = {
@@ -76,8 +86,17 @@ module.exports.userDetail = async (req, res) => {
         };
     }
 
+    //console.log(sys_privs);
+    
     res.render('users/userdetail', {
-        user: user, profile: profile[0], profiles: profiles, errors: errors
+        user: user, 
+        profile: profile[0], 
+        profiles: profiles, 
+        errors: errors, 
+        col_privs: col_privs, 
+        tab_privs: tab_privs, 
+        sys_privs: sys_privs, 
+        rol_privs: rol_privs
     });
 };
 

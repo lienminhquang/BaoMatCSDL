@@ -15,16 +15,29 @@ module.exports.getListPrivileges = async(config)=>
     return result;
 };
 
-module.exports.getList_SYS_PRIVS = async (config) =>
+module.exports.getList_SYS_PRIVS = async (config, username) =>
 {
     let result;
     try {
-        result = await db.executeCommand(
-            config, 
-            `SELECT DBA_SYS_PRIVS.grantee, privilege, admin_option, common, inherited 
-            FROM DBA_SYS_PRIVS, user_manager.users 
-            where DBA_SYS_PRIVS.grantee = UPPER(user_manager.users.username)`,
-            {});
+        if(username)
+        {
+            result = await db.executeCommand(
+                config, 
+                `SELECT DBA_SYS_PRIVS.grantee, privilege, admin_option, common, inherited 
+                FROM DBA_SYS_PRIVS, user_manager.users 
+                where DBA_SYS_PRIVS.grantee = UPPER(:username)
+                and DBA_SYS_PRIVS.grantee = UPPER(user_manager.users.username)`,
+                {username: username});
+        }
+        else
+        {
+            result = await db.executeCommand(
+                config, 
+                `SELECT DBA_SYS_PRIVS.grantee, privilege, admin_option, common, inherited 
+                FROM DBA_SYS_PRIVS, user_manager.users 
+                where DBA_SYS_PRIVS.grantee = UPPER(user_manager.users.username)`,
+                {});
+        }
     } catch (error) {
         throw error;
     }
@@ -49,20 +62,25 @@ module.exports.getList_SYS_PRIVS = async (config) =>
     return list;
 };
 
-module.exports.getList_COL_PRIVS = async (config) =>
+
+module.exports.getList_COL_PRIVS = async (config, username) =>
 {
     let result;
     try {
-        result = await db.executeCommand(
-            config, 
-            `SELECT * FROM DBA_COL_PRIVS WHERE TABLE_NAME='USERS' AND OWNER='USER_MANAGER'`,
-            {});
+        if(username)
+            result = await db.executeCommand(config, `SELECT * FROM USER_COL_PRIVS WHERE TABLE_NAME='USERS' AND OWNER='USER_MANAGER' AND GRANTEE=UPPER(:grantee) `,{grantee: username});
+        else
+            result = await db.executeCommand(config, `SELECT * FROM USER_COL_PRIVS WHERE TABLE_NAME='USERS' AND OWNER='USER_MANAGER'`,{});
+
+        
     } catch (error) {
+        console.log(username);
         throw error;
     }
     
    
     result = result.rows;
+    
 
     let list = [];
 
@@ -85,13 +103,16 @@ module.exports.getList_COL_PRIVS = async (config) =>
     return list;
 };
 
-
-module.exports.getList_TAB_PRIVS = async (config) =>
+//list all privs of users has tab privs on users
+module.exports.getList_TAB_PRIVS = async (config, username) =>
 {
     let result;
 
     try {
-        result = await db.executeCommand(config, `SELECT * FROM USER_TAB_PRIVS WHERE TABLE_NAME='USERS' AND OWNER='USER_MANAGER'`, {});
+        if(username)
+            result = await db.executeCommand(config, `SELECT * FROM USER_TAB_PRIVS WHERE TABLE_NAME='USERS' AND OWNER='USER_MANAGER' AND GRANTEE=UPPER(:username)`, {username:username}); 
+        else
+            result = await db.executeCommand(config, `SELECT * FROM USER_TAB_PRIVS WHERE TABLE_NAME='USERS' AND OWNER='USER_MANAGER'`, {});
         result = result.rows;
     } catch (error) {
         throw error;
@@ -119,10 +140,15 @@ module.exports.getList_TAB_PRIVS = async (config) =>
     return list;
 };
 
-module.exports.getList_ROLE_PRIVS = async (config) =>
+module.exports.getList_ROLE_PRIVS = async (config, username) =>
 {
-    let result = await db.executeCommand(config, `SELECT * FROM USER_ROLE_PRIVS`, {});
-    
+    let result;
+    if(username)
+         result = await db.executeCommand(config, `SELECT * FROM USER_ROLE_PRIVS WHERE USERNAME=UPPER(:username)`, {username: username});
+    else
+         result = await db.executeCommand(config, `SELECT * FROM USER_ROLE_PRIVS`, {});
+
+
     result = result.rows;
 
 

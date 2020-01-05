@@ -6,7 +6,7 @@ block content
         
         if errors
             each error in errors
-                .alert.alert-danger= error
+                .alert.alert-danger=error
         br
         div 
             form.was-validated(action='/privileges/sys/grant' method='POST')
@@ -14,8 +14,9 @@ block content
                     label(for='privilege') Privilege
                     //- input#privilege.form-control(type="dropdown", readonly='', name='privilege', value=privilege)
                     select#privilege.form-control(name='privilege')
-                        each priv in privileges
-                            option(value= priv.name, selected= priv.name == privilege)= priv.name
+                        if privileges
+                            each priv in privileges
+                                option(value= priv.name, selected= priv.name == privilege)= priv.name
                         
                 .form-group
                     label(for='object') Username or role:

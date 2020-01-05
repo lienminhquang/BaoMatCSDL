@@ -25,15 +25,15 @@ block content
                 if list
                     each priv in list
                         tr
-                            th=priv.GRANTEE
-                            th=priv.OWNER
-                            th=priv.TABLE_NAME
-                            th=priv.GRANTOR
-                            th=priv.PRIVILEGE
-                            th=priv.GRANTABLE
-                            th=priv.TYPE
-                            th=priv.INHERITED
-                            th
+                            td=priv.GRANTEE
+                            td=priv.OWNER
+                            td=priv.TABLE_NAME
+                            td=priv.GRANTOR
+                            td=priv.PRIVILEGE
+                            td=priv.GRANTABLE
+                            td=priv.TYPE
+                            td=priv.INHERITED
+                            td
                                 a.btn.btn-primary(href="/privileges/tab/revoke?priv=" + priv.PRIVILEGE + "&table_name=" + priv.TABLE_NAME + "&grantee=" + priv.GRANTEE + "") Revoke
        
         br
