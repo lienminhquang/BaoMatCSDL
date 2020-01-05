@@ -20,12 +20,13 @@ block content
                         th
                         th
                 tbody
-                    each profile in profiles
-                        tr
-                            td=profile
-                            td
-                                a.btn.btn-light(href="/profiles/detail/" + profile) Detail
-                            td
-                                a.btn.btn-light(href="/profiles/delete/" + profile) Delete
+                    if profiles
+                        each profile in profiles
+                            tr
+                                td=profile
+                                td
+                                    a.btn.btn-light(href="/profiles/detail/" + profile) Detail
+                                td
+                                    a.btn.btn-light(href="/profiles/delete/" + profile) Delete
         a.btn.btn-primary(href="/profiles/create") Create
                             

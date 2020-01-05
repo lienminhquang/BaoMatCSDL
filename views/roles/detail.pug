@@ -29,3 +29,103 @@ block content
                 
         
             button.btn.btn-primary(type='submit') Summit change
+    
+    br
+    hr
+    div Role granted to role
+        table.table.table-hover.table-bordered
+            thead
+                tr
+                    th Role
+                    th Granted role
+                    th Admin option
+                    th Common
+                    th Inherited
+                    th 
+            tbody
+                if r2r
+                    each r in r2r
+                        tr
+                            td=r.role
+                            td=r.granted_role
+                            td=r.admin_option
+                            td=r.common
+                            td=r.inherited
+                            td
+                                 a.btn.btn-primary(href="/roles/r2r/revoke?grantee=" + r.role + "&granted_role=" + r.granted_role + "&source=/roles/detail/" + r.role) Revoke
+   
+
+    hr
+    div Sys privilege granted to role
+            table.table.table-hover.table-bordered
+                thead
+                    tr
+                        th Role
+                        th Privilege
+                        th Admin option
+                        th Common
+                        th Inherited
+                        th 
+                tbody
+                    if sys_priv
+                        each sys in sys_priv
+                            tr
+                                td=sys.role
+                                td=sys.privilege
+                                td=sys.admin_option
+                                td=sys.common
+                                td=sys.inherited
+                                td
+                                    a.btn.btn-primary(href="/privileges/sys/revoke?priv=" + sys.privilege + "&username=" + sys.role + "&source=/roles/detail/" + sys.role) Revoke
+  
+
+    hr
+    div Tab privilege granted to role
+        table.table.table-hover.table-bordered
+            thead
+                tr
+                    th Role
+                    th Owner
+                    th Table name
+                    th Column name
+                    th Privilege
+                    th Grantable
+                    th
+            tbody
+                if tab_priv
+                    each tab in tab_priv
+                        tr
+                            td=tab.role
+                            td=tab.owner
+                            td=tab.table_name
+                            td=tab.column_name
+                            td=tab.privilege
+                            td=tab.grantable
+                            td
+                                if tab.column_name
+                                    a.btn.btn-primary(href="/privileges/col/revoke?priv=" + tab.privilege + '&grantee=' + tab.role + '&table_name=' + tab.table_name + '&column_name=' + tab.column_name + '&owner=' + tab.owner + "&source=/roles/detail/" + tab.role) Revoke
+                                else
+                                    a.btn.btn-primary(href="/privileges/tab/revoke?priv=" + tab.privilege + "&table_name=" + tab.table_name + "&grantee=" + tab.role + "&source=/roles/detail/" + tab.role) Revoke
+
+    hr
+    div Users
+        table.table.table-hover.table-bordered
+            thead
+                tr
+                    th Grantee
+                    th Granted role
+                    th Admin option
+                    th Delegate option
+                    th Default role
+                    th
+            tbody
+                if users
+                    each user in users
+                        tr
+                            td=user.grantee
+                            td=user.granted_role
+                            td=user.admin_option
+                            td=user.delegate_option
+                            td=user.default_role
+                            td
+                                a.btn.btn-primary(href="/privileges/sys/revoke?priv=" + user.granted_role + "&username=" + user.grantee + "&source=/roles/detail/" + user.granted_role) Revoke

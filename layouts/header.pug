@@ -34,8 +34,20 @@ body
                         li
                             a.dropdown-item(href='/privileges/col/list') Col
 
-                li.nav-item
-                    a.nav-link(href='/roles/listroles') Roles
+                li.dropdown.nav-item
+                    a.nav-link.dropdown-toggle(data-toggle='dropdown', href='#') Role
+                    
+                    ul.dropdown-menu
+                        li
+                            a.dropdown-item(href='/roles/list') All role
+                        li
+                            a.dropdown-item(href='/roles/sys/list') Sys privilege
+                        li
+                            a.dropdown-item(href='/roles/tab/list') Tab privilege
+                        li
+                            a.dropdown-item(href='/roles/r2r/list') Role to role
+                //- li.nav-item
+                //-     a.nav-link(href='/roles/listroles') Roles
 
                 li.nav-item
                     a.nav-link(href='/auth/login') Logout

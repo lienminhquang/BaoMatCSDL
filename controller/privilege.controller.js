@@ -43,7 +43,7 @@ module.exports.getListTabPrivileges = async (req, res) => {
 };
 
 module.exports.grantSysPrivilege = async (req, res) => {
-    
+
     let e = req.query.e;
     let errors = [];
     if (e) {
@@ -56,9 +56,9 @@ module.exports.grantSysPrivilege = async (req, res) => {
     } catch (error) {
         errors.push(error + '');
     }
-    
 
-    res.render('privileges/sys/grant', {errors: errors , privileges: privs});
+
+    res.render('privileges/sys/grant', { errors: errors, privileges: privs });
 };
 
 module.exports.grantSysPrivilegePost = async (req, res) => {
@@ -81,7 +81,7 @@ module.exports.grantSysPrivilegePost = async (req, res) => {
 
 module.exports.grantTabPrivilegePost = async (req, res) => {
     let privilege = req.body;
-    
+
     let object = req.body.object;
 
     let result;
@@ -97,28 +97,31 @@ module.exports.grantTabPrivilegePost = async (req, res) => {
     res.redirect('/privileges/tab/grant?e=' + encodeURIComponent('Grant succeeded.') + '');
 };
 
-module.exports.revokeTabPrivilege = async(req, res)=>
-{
+module.exports.revokeTabPrivilege = async (req, res) => {
     let priv = req.query.priv;
     let table_name = req.query.table_name;
     let grantee = req.query.grantee;
+    let source = req.query.source;
 
     let result;
     try {
         result = await privilegeModel.revokeTabPrivilege(res.locals.config, priv, table_name, grantee);
     } catch (error) {
-        
-        res.redirect('/privileges/tab/list?e=' + encodeURIComponent(error + ''));
+        if(source)
+            res.redirect(source + '?e=' + encodeURIComponent(error + ''));
+        else
+            res.redirect('/privileges/tab/list?e=' + encodeURIComponent(error + ''));
         return;
     }
 
-    
-    res.redirect('/privileges/tab/list?e=' + encodeURIComponent('Revoke succeeded.'))
+    if(source)
+        res.redirect(source + '?e=' + encodeURIComponent('Revoke succeeded.'))
+    else
+        res.redirect('/privileges/tab/list?e=' + encodeURIComponent('Revoke succeeded.'))
 };
 
 
-module.exports.grantTabPrivilege = async (req, res)=>
-{
+module.exports.grantTabPrivilege = async (req, res) => {
     let priv = req.params.privilege;
     let e = req.query.e;
     let errors = [];
@@ -132,28 +135,32 @@ module.exports.grantTabPrivilege = async (req, res)=>
     } catch (error) {
         errors.push(error + '');
     }
-    
 
-    res.render('privileges/tab/grant', { privilege: priv, errors: errors , privileges: privs});
+
+    res.render('privileges/tab/grant', { privilege: priv, errors: errors, privileges: privs });
 };
 
-module.exports.revokeSysPrivilege = async (req, res)=>
-{
+module.exports.revokeSysPrivilege = async (req, res) => {
     let priv = req.query.priv;
     let username = req.query.username;
+    let source = req.query.source;
     console.log(req.query);
 
     let result;
     try {
         result = await privilegeModel.revokeSysPrivilege(res.locals.config, priv, username);
     } catch (error) {
-        
-        res.redirect('/privileges/sys/list?e=' + encodeURIComponent(error + ''));
+        if (source)
+            res.redirect(source + '?e=' + encodeURIComponent(error + ''));
+        else
+            res.redirect('/privileges/sys/list?e=' + encodeURIComponent(error + ''));
         return;
     }
 
-    
-    res.redirect('/privileges/sys/list?e=' + encodeURIComponent('Revoke succeeded.'))
+    if (source)
+        res.redirect(source + '?e=' + encodeURIComponent('Revoke succeeded.'))
+    else
+        res.redirect('/privileges/sys/list?e=' + encodeURIComponent('Revoke succeeded.'))
 
 };
 
@@ -182,27 +189,30 @@ module.exports.getListColPrivileges = async (req, res) => {
 
 
 
-module.exports.revokeColPrivilege = async (req, res)=>
-{
+module.exports.revokeColPrivilege = async (req, res) => {
     let priv = req.query;
-
+    //console.log(priv);
+    let source = req.query.source;
     let result;
     try {
         result = await privilegeModel.revokeColPrivilege(res.locals.config, priv);
     } catch (error) {
-        
-        res.redirect('/privileges/col/list?e=' + encodeURIComponent(error + ''));
+        if(source)
+            res.redirect(source + '?e=' + encodeURIComponent(error + ''));
+        else
+            res.redirect('/privileges/col/list?e=' + encodeURIComponent(error + ''));
         return;
     }
 
-    
-    res.redirect('/privileges/col/list?e=' + encodeURIComponent('Revoke succeeded.'));
+    if(source)
+        res.redirect(source + '?e=' + encodeURIComponent('Revoke succeeded.'));
+    else
+        res.redirect('/privileges/col/list?e=' + encodeURIComponent('Revoke succeeded.'));
 
 };
 
 
-module.exports.grantColPrivilege = async (req, res)=>
-{
+module.exports.grantColPrivilege = async (req, res) => {
     let e = req.query.e;
     let errors = [];
     if (e) {

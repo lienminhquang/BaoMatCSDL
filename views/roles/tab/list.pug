@@ -1,0 +1,39 @@
+extends ../../../layouts/header
+block content
+    .container
+        h2 List tab privileges granted to role
+        
+        if errors
+            each error in errors
+                .alert.alert-danger= error
+        br
+        div 
+            table.table.table-hover.table-bordered
+                thead
+                    tr
+                        th Role
+                        th Owner
+                        th Table name
+                        th Column name
+                        th Privilege
+                        th Grantable
+                        th
+                tbody
+                    if list
+                        each priv in list
+                            tr
+                                td=priv.role
+                                td=priv.owner
+                                td=priv.table_name
+                                td=priv.column_name
+                                td=priv.privilege
+                                td=priv.grantable
+                                td
+                                    if priv.column_name
+                                        a.btn.btn-primary(href="/privileges/col/revoke?priv=" + priv.privilege + '&grantee=' + priv.role + '&table_name=' + priv.table_name + '&column_name=' + priv.column_name + '&owner=' + priv.owner + "&source=/roles/tab/list") Revoke
+                                    else
+                                        a.btn.btn-primary(href="/privileges/tab/revoke?priv=" + priv.privilege + "&table_name=" + priv.table_name + "&grantee=" + priv.role + "&source=/roles/tab/list") Revoke
+
+
+        br
+        a.btn.btn-primary(href="/privileges/tab/grant") Grant

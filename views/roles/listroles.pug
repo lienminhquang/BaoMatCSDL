@@ -25,4 +25,9 @@ block content
                             td
                                 a.btn.btn-light(href='/roles/delete/' + role.role) Delete
         
-        a.btn.btn-primary(href="/roles/create") Create Role
+        
+        .row.mx-md-n5
+            .col.px-md-5
+                a.btn.btn-primary(href="/roles/create" padding='100px') Create Role
+            .col.px-md-5
+                a.btn.btn-primary(href="/roles/grant?source=/roles/list") Grant to user
