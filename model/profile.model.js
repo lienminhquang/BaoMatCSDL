@@ -21,7 +21,7 @@ module.exports.getProfileOfUser = async (config, username) =>
 {
     let result;
     try {
-        result = await db.executeCommand(config, `SELECT PROFILE FROM DBA_USERS WHERE USERNAME=:username`, {username: username});
+        result = await db.executeCommand(config, `SELECT PROFILE FROM DBA_USERS WHERE USERNAME=UPPER(:username)`, {username: username});
         result = result.rows[0];
     } catch (error) {
         throw error;

@@ -23,9 +23,7 @@ block content
                 .invalid-feedback Please fill out this field.
             .form-group
                 label(for='password') Password:
-                input#password.form-control(type='password', placeholder='Enter password', name='password', required='')
-                .valid-feedback Valid.
-                .invalid-feedback Please fill out this field.
+                input#password.form-control(type='password', placeholder='Enter password', name='password')
             .form-group
                 label(for='email') Email:
                 input#email.form-control(type='text', placeholder='Enter email', name='email', value= user.email)
@@ -44,10 +42,11 @@ block content
                 label(for='quota') Quota:
                 input#quota.form-control(type='number', value='500', name='quota')
             .form-group
-                lable(for='account') Account status:
-                select#account.form-control(name='account')
-                    option UNLOCK
-                    option LOCK
+                lable(for='account_status')= 'Account status: ' + user.account_status
+                   
+                select#account_status.form-control(name='account_status')
+                    option(selected= user.account_status == 'LOCKED') LOCK
+                    option(selected= user.account_status == 'OPEN') UNLOCK
 
             if profiles
                 .form-group

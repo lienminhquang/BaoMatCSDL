@@ -7,7 +7,7 @@ module.exports.getListUsers = async (config) => {
         users = await db.executeCommand(config, 'select * from user_manager.users', {});
     }
     catch (err) {
-        console.log(err + '');
+        throw err;
     }
 
     return users;
@@ -89,7 +89,7 @@ module.exports.createUser = async (config, user) => {
         PROFILE `+ user.profile + ` 
         ACCOUNT `+ user.account + ` 
         `;
-
+        console.log(query_create);
         await connection.execute(query_create, {}, { autoCommit: false });
 
         // if (user.privileges) {
@@ -136,15 +136,20 @@ module.exports.alterUser = async (config, user) => {
         );
 
         let query =
-            `
-        alter user ` + user.username + ` identified by ` + user.password + `  
+        `
+        alter user ` + user.username +`  
         DEFAULT TABLESPACE `+ user.defaultablespace + ` 
         QUOTA `+ user.quota + ` ON ` + user.defaultablespace + ` 
         TEMPORARY TABLESPACE `+ user.temptablespace + ` 
         PROFILE `+ user.profile + ` 
-        ACCOUNT `+ user.account + `  
+        ACCOUNT `+ user.account_status + `  
         `;
-        console.log(query);
+        if(user.password)
+        {
+            query += ` IDENTIFIED BY ` + user.password + ` `;
+        }
+
+        //console.log(query);
         await db.executeCommand(config, query, {});
 
     } catch (error) {
@@ -154,3 +159,13 @@ module.exports.alterUser = async (config, user) => {
     return result;
 };
 
+module.exports.getAccoutStatus = async(config, username)=>
+{
+    let result;
+    try {
+        result = await db.executeCommand(config, 'select account_status from sys.dba_users where username=upper(:username)', {username: username});
+    } catch (error) {
+        throw error;
+    }
+    return result.rows[0][0];
+};

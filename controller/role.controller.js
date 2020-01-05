@@ -59,11 +59,11 @@ module.exports.roleDetailPost = async(req, res)=>
     try {
         result = await roleModel.alterRole(res.locals.config, role);
     } catch (error) {
-        res.render('roles/detail', {role: role, errors:[error + '']});
+        res.redirect('/roles/detail/' + role.role +'?e=' + encodeURIComponent(error + ''));
         return;
     }
 
-    res.render('roles/detail', {role: role, errors:["Role changed"]});
+    res.redirect('/roles/detail/' + role.role +'?e=' + encodeURIComponent('Role changed.'));
 };
 
 module.exports.deleteRole = async(req, res)=>
