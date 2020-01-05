@@ -66,8 +66,6 @@ module.exports.grantSysPrivilegePost = async (req, res) => {
     let object = req.body.object;
     let grantable = req.body.grantable;
 
-
-
     let result;
 
     try {

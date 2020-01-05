@@ -22,18 +22,19 @@ block content
                     th
 
             tbody
-                each priv in list
-                    tr
-                        th=priv.GRANTEE
-                        th=priv.OWNER
-                        th=priv.TABLE_NAME
-                        th=priv.GRANTOR
-                        th=priv.PRIVILEGE
-                        th=priv.GRANTABLE
-                        th=priv.TYPE
-                        th=priv.INHERITED
-                        th
-                            a.btn.btn-primary(href="/privileges/tab/revoke?priv=" + priv.PRIVILEGE + "&table_name=" + priv.TABLE_NAME + "&grantee=" + priv.GRANTEE + "") Revoke
+                if list
+                    each priv in list
+                        tr
+                            th=priv.GRANTEE
+                            th=priv.OWNER
+                            th=priv.TABLE_NAME
+                            th=priv.GRANTOR
+                            th=priv.PRIVILEGE
+                            th=priv.GRANTABLE
+                            th=priv.TYPE
+                            th=priv.INHERITED
+                            th
+                                a.btn.btn-primary(href="/privileges/tab/revoke?priv=" + priv.PRIVILEGE + "&table_name=" + priv.TABLE_NAME + "&grantee=" + priv.GRANTEE + "") Revoke
        
         br
         a.btn.btn-primary(href="/privileges/tab/grant") Grant

@@ -37,8 +37,7 @@ body
                 li.nav-item
                     a.nav-link(href='/roles/listroles') Roles
 
-                if user
-                    li.nav-item
-                        a.nav-link.float-right=user.name
+                li.nav-item
+                    a.nav-link(href='/auth/login') Logout
     .container
         block content

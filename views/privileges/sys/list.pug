@@ -18,14 +18,15 @@ block content
                         th INHERITED
                         th 
                 tbody
-                    each priv in list
-                        tr
-                            td=priv.USERNAME
-                            td=priv.PRIVILEGE
-                            td=priv.ADMIN_OPTION
-                            td=priv.COMMON
-                            td=priv.INHERITED
-                            td
-                                a.btn.btn-primary(href="/privileges/sys/revoke?priv=" + priv.PRIVILEGE + "&username=" + priv.USERNAME + "") Revoke
+                    if list
+                        each priv in list
+                            tr
+                                td=priv.USERNAME
+                                td=priv.PRIVILEGE
+                                td=priv.ADMIN_OPTION
+                                td=priv.COMMON
+                                td=priv.INHERITED
+                                td
+                                    a.btn.btn-primary(href="/privileges/sys/revoke?priv=" + priv.PRIVILEGE + "&username=" + priv.USERNAME + "") Revoke
         br
         a.btn.btn-primary(href="/privileges/sys/grant") Grant

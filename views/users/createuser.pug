@@ -45,29 +45,13 @@ block content
         select#accountstatus.form-control(name='account')
           option UNLOCK
           option LOCK
-      .form-group
-        label(for='profiles') Profiles:
-        select#profiles.form-control(name='profile')
-          if profiles
-            each profile in profiles
-              option=profile
-         
-      .form-group
-        label(for='roles') Roles: (hold shift to select more than one):
-        select#roles.form-control(multiple='', name='roles')
-          option 1
-          option 2
-          option 3
-          option 4
-          option 5  
-      .form-group
-        label(for='privileges') Privileges: (hold shift to select more than one):
-        select#privileges.form-control(multiple='', name='privileges')
-          option INSERT ON USER_MANAGER.USERS
-          option UPDATE ON USER_MANAGER.USERS
-          option DELETE ON USER_MANAGER.USERS
-          option SELECT ON USER_MANAGER.USERS
-          option CREATE SESSION
+   
+      if profiles
+        .form-group
+            label(for='profiles') Profiles:
+            select#profiles.form-control(name='profiles')
+                each pro in profiles
+                    option=pro
 
 
       

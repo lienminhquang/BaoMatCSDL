@@ -34,32 +34,58 @@ module.exports.listUsers = async (req, res) => {
 
 module.exports.userDetail = async (req, res) => {
     let username = req.params.username;
-    console.log('View user detail: ' + username);
+    let user;
+    let profile;
+    let profiles;
+    let errors = [];
+    
+    try {
+        user  = await userModel.getUserByUsername(
+            res.locals.config,
+            username
+        );
+        profile = await profileModel.getProfileOfUser(res.locals.config, username);
+        profiles = await profileModel.getList_profiles(res.locals.config);
 
-    let user = await userModel.getUserByUsername(
-        res.locals.config,
-        username
-    );
+    } catch (error) {
+        console.log(error);
+        errors.push(error + '');
+        
+    }
+    
 
-    user = user.rows[0];
-    user = {
-        username: user[0],
-        email: user[1],
-        name: user[2],
-        address: user[3]
-    };
+    //console.log(user);
+    if(user)
+    {
+        user = user.rows[0];
+        user = {
+            username: user[0],
+            email: user[1],
+            name: user[2],
+            address: user[3]
+        };
+    }
+
 
     res.render('users/userdetail', {
-        user
+        user: user, profile : profile, profiles: profiles, errors: errors
     });
 };
 
 module.exports.createUser = async function (req, res) {
 
-    let listProfiles = await profileModel.getList_profiles(res.locals.config);
+    let listProfiles;
+    let errors = [];
+    try {
+        listProfiles  = await profileModel.getList_profiles(res.locals.config);
+    } catch (error) {
+        console.log(error);
+        errors.push(error + '');
+    }
 
+    
     res.render('users/createuser', {
-        profiles: listProfiles
+        profiles: listProfiles, errors: errors
     })
 };
 
@@ -111,5 +137,24 @@ module.exports.deleteUser = async function (req, res) {
     }
 
     res.redirect('/users/listusers');
+};
+
+module.exports.alterUserPost = async function (req, res) {
+    let result;
+    let errors = [];
+    try{
+        result = await userModel.alterUser(res.locals.config, req.body);
+    }
+    catch(e)
+    {
+        console.log(e);
+
+        errors.push(e + '');
+        res.redirect('/users/userdetail/' + req.body.username);
+        return;
+    }
+    
+    
+    res.redirect('/users/userdetail/' + req.body.username + '?e=' + encodeURIComponent('Alter successed.'));
 };
 

@@ -23,19 +23,20 @@ block content
                     th
 
             tbody
-                each priv in list
-                    tr
-                        th=priv.GRANTEE
-                        th=priv.OWNER
-                        th=priv.TABLE_NAME
-                        th=priv.COLUMN_NAME
-                        th=priv.GRANTOR
-                        th=priv.PRIVILEGE
-                        th=priv.GRANTABLE
-                        th=priv.COMMON
-                        th=priv.INHERITED
-                        th
-                            a.btn.btn-primary(href="/privileges/col/revoke?priv=" + priv.PRIVILEGE + '&grantee=' + priv.GRANTEE + '&table_name=' + priv.TABLE_NAME + '&column_name=' + priv.COLUMN_NAME + '&owner=' + priv.OWNER) Revoke
+                if list
+                    each priv in list
+                        tr
+                            th=priv.GRANTEE
+                            th=priv.OWNER
+                            th=priv.TABLE_NAME
+                            th=priv.COLUMN_NAME
+                            th=priv.GRANTOR
+                            th=priv.PRIVILEGE
+                            th=priv.GRANTABLE
+                            th=priv.COMMON
+                            th=priv.INHERITED
+                            th
+                                a.btn.btn-primary(href="/privileges/col/revoke?priv=" + priv.PRIVILEGE + '&grantee=' + priv.GRANTEE + '&table_name=' + priv.TABLE_NAME + '&column_name=' + priv.COLUMN_NAME + '&owner=' + priv.OWNER) Revoke
         
         br
         a.btn.btn-primary(href="/privileges/col/grant") Grant

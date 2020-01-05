@@ -13,7 +13,19 @@ module.exports.getList_profiles = async (config) =>
         console.log("ERROR: " + error);
     }
 
-    if (!result) result = ['DEFAULT'];
+
+    return result;
+};
+
+module.exports.getProfileOfUser = async (config, username) =>
+{
+    let result;
+    try {
+        result = await db.executeCommand(config, `SELECT PROFILE FROM DBA_USERS WHERE USERNAME=:username`, {username: username});
+        result = result.rows[0];
+    } catch (error) {
+        throw error;
+    }
 
     return result;
 };

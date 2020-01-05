@@ -28,6 +28,7 @@ module.exports.executeCommand = async (config, command, parameters)=>{
     let conn = await oracledb.getConnection(config);
     let result = await conn.execute(command, parameters, {autoCommit: true});
     conn.close();
+    
     return result;
 };
 

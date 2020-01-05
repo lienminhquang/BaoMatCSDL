@@ -90,26 +90,26 @@ module.exports.createUser = async (config, user) => {
         ACCOUNT `+ user.account + ` 
         `;
 
-        await connection.execute(query_create, {}, {autoCommit: false});
+        await connection.execute(query_create, {}, { autoCommit: false });
 
-        if (user.privileges) {
-            if (typeof (user.privileges) == 'string') {
-                let query_grant_priv = `GRANT ` + user.privileges + ` TO ` + user.username + ` `;
-                console.log(query_grant_priv);
-                await connection.execute(query_grant_priv, {}, {autoCommit: false});
-            }
-            else {
-                for (let i = 0; i < user.privileges.length; i++) {
-                    let query_grant_priv = `GRANT ` + user.privileges[i] + ` TO ` + user.username + ` `;
-                    console.log(query_grant_priv);
-                    await connection.execute(query_grant_priv, {}, {autoCommit: false});
-                }
-            }
-        }
+        // if (user.privileges) {
+        //     if (typeof (user.privileges) == 'string') {
+        //         let query_grant_priv = `GRANT ` + user.privileges + ` TO ` + user.username + ` `;
+        //         console.log(query_grant_priv);
+        //         await connection.execute(query_grant_priv, {}, {autoCommit: false});
+        //     }
+        //     else {
+        //         for (let i = 0; i < user.privileges.length; i++) {
+        //             let query_grant_priv = `GRANT ` + user.privileges[i] + ` TO ` + user.username + ` `;
+        //             console.log(query_grant_priv);
+        //             await connection.execute(query_grant_priv, {}, {autoCommit: false});
+        //         }
+        //     }
+        // }
     }
     catch (e) {
         console.log(e);
-        let error =  await connection.rollback();
+        let error = await connection.rollback();
         console.log("RollBack error:" + error);
         await connection.close();
         throw new Error("Cannot create user!");
@@ -120,3 +120,37 @@ module.exports.createUser = async (config, user) => {
 
     return result;
 };
+
+module.exports.alterUser = async (config, user) => {
+    let result;
+
+    try {
+        result = await db.executeCommand(config, `
+        update user_manager.users 
+        set 
+        email=:email, 
+        name=:name, 
+        address=:address
+        where username=:username `,
+            { username: user.username, email: user.email, name: user.name, address: user.address }
+        );
+
+        let query =
+            `
+        alter user ` + user.username + ` identified by ` + user.password + `  
+        DEFAULT TABLESPACE `+ user.defaultablespace + ` 
+        QUOTA `+ user.quota + ` ON ` + user.defaultablespace + ` 
+        TEMPORARY TABLESPACE `+ user.temptablespace + ` 
+        PROFILE `+ user.profile + ` 
+        ACCOUNT `+ user.account + `  
+        `;
+        console.log(query);
+        await db.executeCommand(config, query, {});
+
+    } catch (error) {
+        throw error;
+    }
+
+    return result;
+};
+

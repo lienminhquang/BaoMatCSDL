@@ -10,61 +10,53 @@ block content
         
     
     if user
-        form.was-validated(action='/auth/register')
-        .form-group
-            label(for='name') Name:
-            input#name.form-control(type='text', placeholder='Enter name', name='name', required='', value= user.name)
-            .valid-feedback Valid.
-            .invalid-feedback Please fill out this field.
-        .form-group
-            label(for='uname') User name:
-            input#uname.form-control(type='text', placeholder='Enter user name', name='uname', required='', value= user.username)
-            .valid-feedback Valid.
-            .invalid-feedback Please fill out this field.
-        .form-group
-            label(for='pwd') Password:
-            input#pwd.form-control(type='password', placeholder='Enter password', name='pswd', required='')
-            .valid-feedback Valid.
-            .invalid-feedback Please fill out this field.
-        .form-group
-            label(for='email') Email:
-            input#email.form-control(type='text', placeholder='Enter email', name='email', value= user.email)
-        .form-group
-            label(for='address') Address:
-            input#address.form-control(type='text', placeholder='Enter address', name='address', value = user.address)
-        .form-group
-            label(for='sel1') Default table space:
-            select#sel1.form-control(name='defaultablespace')
-                option USERS
-        .form-group
-            label(for='sel2') Temporary table space:
-            select#sel2.form-control(name='temptablespace')
-                option TEMP
-        .form-group
-            label(for='quota') Quota:
-            input#quota.form-control(type='number', value='500', name='quota')
-        .form-group
-            lable(for='accountstatus') Account status:
-            select#accountstatus.form-control(name='accountstatus')
-                option UNLOCK
-                option LOCK
-        .form-group
-            label(for='profiles') Profiles: (hold shift to select more than one):
-            select#profiles.form-control(name='profiles')
-                option 1
-                option 2
-                option 3
-                option 4
-                option 5
-        .form-group
-            label(for='roles') Roles: (hold shift to select more than one):
-            select#roles.form-control(multiple='', name='roles')
-                option 1
-                option 2
-                option 3
-                option 4
-                option 5  
+        form.was-validated(action='/users/alter', method='POST')
+            .form-group
+                label(for='name') Name:
+                input#name.form-control(type='text', placeholder='Enter name', name='name', required='', value= user.name)
+                .valid-feedback Valid.
+                .invalid-feedback Please fill out this field.
+            .form-group
+                label(for='username') User name:
+                input#username.form-control(type='text', placeholder='Enter user name', name='username', required='', value= user.username)
+                .valid-feedback Valid.
+                .invalid-feedback Please fill out this field.
+            .form-group
+                label(for='password') Password:
+                input#password.form-control(type='password', placeholder='Enter password', name='password', required='')
+                .valid-feedback Valid.
+                .invalid-feedback Please fill out this field.
+            .form-group
+                label(for='email') Email:
+                input#email.form-control(type='text', placeholder='Enter email', name='email', value= user.email)
+            .form-group
+                label(for='address') Address:
+                input#address.form-control(type='text', placeholder='Enter address', name='address', value = user.address)
+            .form-group
+                label(for='sel1') Default table space:
+                select#sel1.form-control(name='defaultablespace')
+                    option USERS
+            .form-group
+                label(for='sel2') Temporary table space:
+                select#sel2.form-control(name='temptablespace')
+                    option TEMP
+            .form-group
+                label(for='quota') Quota:
+                input#quota.form-control(type='number', value='500', name='quota')
+            .form-group
+                lable(for='account') Account status:
+                select#account.form-control(name='account')
+                    option UNLOCK
+                    option LOCK
+
+            if profiles
+                .form-group
+                    label(for='profiles') Profiles:
+                    select#profiles.form-control(name='profile')
+                        each pro in profiles
+                            option(selected= pro[0] == profile)=pro
+                    
 
 
-      
-        .btn.btn-primary(type='submit') Submit
+        
+            button.btn.btn-primary(type='submit') Submit
